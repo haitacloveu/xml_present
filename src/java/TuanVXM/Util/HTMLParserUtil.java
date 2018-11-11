@@ -5,6 +5,8 @@
  */
 package TuanVXM.Util;
 
+import TuanVXM.Config.ReplaceConfig;
+import TuanVXM.Config.SingleConfig;
 import TuanVXM.DTO.TechOneProductDTO;
 import com.sun.xml.internal.bind.v2.runtime.unmarshaller.TagName;
 import java.io.ByteArrayInputStream;
@@ -43,18 +45,20 @@ public class HTMLParserUtil {
         }
         return content;
     }
-    
-    public static String prepareTechOneHtml(String html) {
-        html = html.replace("itemscope", "itemscope=''");
-        html = html.replace("&", "&amp;");
-        html = html.replace("---", "--");
+
+    public static String prepareHtml(String html, List<ReplaceConfig> replaceConfigs) {
+        for (ReplaceConfig config : replaceConfigs) {
+            html = html.replace(config.getReplacement(), config.getTarget());
+        }
         return html;
     }
 
-    public static List<TechOneProductDTO> parseTechOne(String url) throws XMLStreamException {
-        List<TechOneProductDTO> result = new ArrayList<>();
+    public static List<List<String>> parseHtml(String url, List<ReplaceConfig> replaceConfigs,
+            SingleConfig startConfig, SingleConfig endConfig, List<SingleConfig> configs)
+            throws XMLStreamException {
+        List<List<String>> result = new ArrayList<>();
 
-        String html = prepareTechOneHtml(loadHtml(url));
+        String html = prepareHtml(loadHtml(url), replaceConfigs);
 
         InputStream is = new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8));
 
@@ -64,12 +68,8 @@ public class HTMLParserUtil {
                 int cursor = reader.next();
                 if (cursor == XMLStreamConstants.START_ELEMENT) {
                     String tagName = reader.getLocalName();
-                    if (tagName.equals("li")) {
-                        String liClass
-                                = reader.getAttributeValue("", "class");
-                        if (liClass != null && liClass.equals("lli")) {
-                            result.add(getNextProduct(reader));
-                        }
+                    if (matchConfig(startConfig, reader)) {
+                        result.add(getNextRecord(reader, configs, endConfig));
                     }
                 }
             } catch (XMLStreamException ex) {
@@ -83,41 +83,36 @@ public class HTMLParserUtil {
         return result;
     }
 
-    public static TechOneProductDTO getNextProduct(XMLStreamReader reader) throws XMLStreamException {
-        TechOneProductDTO product = new TechOneProductDTO();
+    public static List<String> getNextRecord(XMLStreamReader reader,
+            List<SingleConfig> configs, SingleConfig endConfig)
+            throws XMLStreamException {
+        List<String> result = new ArrayList<>();
+        
+        for (SingleConfig config : configs) {
+            config.setValue(null);
+        }
+        
         while (reader.hasNext()) {
             try {
                 int cursor = reader.next();
                 if (cursor == XMLStreamConstants.START_ELEMENT) {
-                    String tagName = reader.getLocalName();
-                    System.out.println("start: " + tagName);
-                    if (tagName.equals("span")
-                            && reader.getAttributeValue("", "class").contains("iconlct")) {
-                        product.setLabel(XmlUtil.getCurrentNodeText(reader));
-                    } else if (tagName.equals("a")) {
-                        product.setLink(reader.getAttributeValue("", "href"));
-                    } else if (tagName.equals("img")) {
-                        product.setImgLink(reader.getAttributeValue("", "src"));
-                        product.setName(reader.getAttributeValue("", "alt"));
-                    //} else if (tagName.equals("h3")) {
-                    //    product.setName(XmlUtil.getCurrentNodeText(reader));
-                    } else if (tagName.equals("span")
-                            && reader.getAttributeValue("", "class").equals("price")) {
-                        product.setPrice(formatPrice(XmlUtil.getCurrentNodeText(reader)));
-                    } else if (tagName.equals("span")
-                            && reader.getAttributeValue("", "class").equals("lspecial")) {
-                        product.setsPrice(formatPrice(XmlUtil.getCurrentNodeText(reader)));
-                    } else if (tagName.equals("div")
-                            && reader.getAttributeValue("", "class").equals("lmprom")) {
-                        product.setPromotion(XmlUtil.getCurrentNodeText(reader));
-                    } else if (tagName.equals("div")
-                            && reader.getAttributeValue("", "class").contains("lmore")) {
-                        //break;
+                    boolean flagEnd = false;
+                    
+                    if (matchConfig(endConfig, reader)) {
+                        flagEnd = true;
                     }
-                } else if (cursor == XMLStreamConstants.END_ELEMENT) {
-                    String tagName = reader.getLocalName();
-                        System.out.println("end: " + tagName);
-                    if (tagName.equals("li")) {
+
+                    for (SingleConfig config : configs) {
+                        if (matchConfig(config, reader)) {
+                            config.setValue(getConfigValue(config, reader));
+                            System.out.println(config.getValue());
+                            if (config.getWantedAttr() == null) {
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if (flagEnd) {
                         break;
                     }
                 }
@@ -125,12 +120,36 @@ public class HTMLParserUtil {
                 //Logger.getLogger(HTMLParser.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return product;
+        
+        for (SingleConfig config : configs) {
+            result.add(config.getValue());
+        }
+        
+        return result;
     }
-    
-    private static long formatPrice(String priceString) {
-        priceString = priceString.replace(".", "");
-        priceString = priceString.replace("đ", "");
-        return Long.parseLong(priceString);
+
+    private static boolean matchConfig(SingleConfig config, XMLStreamReader reader) {
+        String tagName = reader.getLocalName();
+        if (tagName.equals(config.getTagName())) {
+            if (config.getAttrName() == null) {
+                return true;
+            }
+
+            String attrVal = reader.getAttributeValue("", config.getAttrName());
+            if (attrVal != null && attrVal.contains(config.getAttrValue())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String getConfigValue(SingleConfig config, XMLStreamReader reader) throws XMLStreamException {
+        String result;
+        if (config.getWantedAttr() != null) {
+            result = reader.getAttributeValue("", config.getWantedAttr());
+        } else {
+            result = XmlUtil.getCurrentNodeText(reader);
+        }
+        return result;
     }
 }

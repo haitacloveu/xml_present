@@ -5,6 +5,9 @@
  */
 package TuanVXM.DTO;
 
+import TuanVXM.Util.DataFormatUtil;
+import java.util.List;
+
 /**
  *
  * @author TuanVXM
@@ -29,6 +32,16 @@ public class TechOneProductDTO {
         this.price = price;
         this.sPrice = sPrice;
         this.promotion = promotion;
+    }
+
+    public TechOneProductDTO(List<String> strings) {this.label = label;
+        this.label = strings.get(0);
+        this.link = strings.get(1);
+        this.imgLink = strings.get(2);
+        this.name = strings.get(3);
+        this.price = DataFormatUtil.formatPrice(strings.get(4));
+        this.sPrice = DataFormatUtil.formatPrice(strings.get(5));
+        this.promotion = strings.get(6);
     }
 
     public String getLabel() {

@@ -5,8 +5,11 @@
  */
 package TuanVXM.test;
 
+import TuanVXM.Config.SingleConfig;
 import TuanVXM.DTO.TechOneProductDTO;
+import TuanVXM.Service.CrawlService;
 import TuanVXM.Util.HTMLParserUtil;
+import java.util.ArrayList;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
@@ -17,18 +20,7 @@ import javax.xml.stream.XMLStreamException;
 public class Main {
 
     public static void main(String[] args) throws XMLStreamException {
-        String url = "http://www.techone.vn/dien-thoai/&page=1";
-        List<TechOneProductDTO> list = HTMLParserUtil.parseTechOne(url);
-        System.out.println(list.size());
-        //for (int i=0; i<list.size(); i++) {
-        //    System.out.println(list.get(i).getName());
-        //    System.out.println(list.get(i).getLabel());
-        //    System.out.println(list.get(i).getImgLink());
-        //    System.out.println(list.get(i).getLink());
-        //    System.out.println(list.get(i).getPrice());
-        //    System.out.println(list.get(i).getsPrice());
-        //    System.out.println(list.get(i).getPromotion());
-        //    System.out.println("------------");
-        //}
+        //new CrawlService().crawl();
+        new CrawlService().crawl2();
     }
 }
