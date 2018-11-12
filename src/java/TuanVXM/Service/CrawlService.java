@@ -59,6 +59,7 @@ public class CrawlService {
                 if (techOneProductBusiness.saveProduct(product)) {
                     String searchUrl = regenMuaBanSearchUrl(product.getName());
 
+                    System.out.println(searchUrl);
                     List<MuaBanProductDTO> muaBanProductDTOs = crawlMuaBan(searchUrl);
                     for (MuaBanProductDTO dto : muaBanProductDTOs) {
                         dto.setToProductId(id);
@@ -121,29 +122,20 @@ public class CrawlService {
     }
 
     public static Config regenMuaBanCrawlConfig() {
-        Config config = new Config();
-
-        config.setStartConfig(new SingleConfig("div", "class", "mbn-box-list-content mbn-box-summary"));
-        config.setEndConfig(new SingleConfig("div", "class", "clearfix"));
-
-        config.getConfigs().add(new SingleConfig("a", "class", "mbn-image", "title"));
-        config.getConfigs().add(new SingleConfig("a", "class", "mbn-image", "href"));
-        config.getConfigs().add(new SingleConfig("img", null, null, "data-original"));
-        config.getConfigs().add(new SingleConfig("span", "class", "mbn-price"));
-        config.getConfigs().add(new SingleConfig("span", "class", "mbn-item-summary"));
-        config.getConfigs().add(new SingleConfig("span", "class", "mbn-address"));
-        config.getConfigs().add(new SingleConfig("span", "class", "mbn-date"));
-
-        config.getReplaceConfigs().add(new ReplaceConfig("async", "async=''"));
-        config.getReplaceConfigs().add(new ReplaceConfig("defer", "defer=''"));
-        config.getReplaceConfigs().add(new ReplaceConfig("<i class=\"icon icon-Location-line\"></i> ", ""));
-        config.getReplaceConfigs().add(new ReplaceConfig("<i class=\"icon icon-clock96\"></i> ", ""));
-        config.getReplaceConfigs().add(new ReplaceConfig("mbn-price-extension", ""));
-        config.getReplaceConfigs().add(new ReplaceConfig("&", "&amp;"));
-        config.getReplaceConfigs().add(new ReplaceConfig(" < ", ""));
-        config.getReplaceConfigs().add(new ReplaceConfig(" > ", ""));
-
-        return config;
+        try {
+            Config config = new Config();
+            
+            File file = new File(CommonConstant.MUA_BAN_CONFIG_FILE);
+            JAXBContext jaxbContext = JAXBContext.newInstance(Config.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            config = (Config) unmarshaller.unmarshal(file);
+            
+            return config;
+        } catch (JAXBException ex) {
+            //Logger.getLogger(CrawlService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
     }
 
     private String regenTechOneSearchUrl(int page) {
@@ -154,8 +146,7 @@ public class CrawlService {
 
     private String regenMuaBanSearchUrl(String keyword) {
         String result = CommonConstant.MUA_BAN_URL_PATTERN;
-        keyword = keyword.replace("C&ocirc;ng ty", "");
-        keyword = keyword.replace("C&ocirc;ng Ty", "");
+        keyword = keyword.replace("Công ty", "");
         keyword = keyword.replace(" ", "%20");
         result = result.replace("{search}", keyword);
         return result;

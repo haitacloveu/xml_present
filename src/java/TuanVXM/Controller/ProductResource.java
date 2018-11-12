@@ -35,7 +35,7 @@ public class ProductResource {
      * @return an instance of java.lang.String
      */
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_XML)
     public String getProducts() {
         String result = new ProductService().getAllProducts();
         return result;
