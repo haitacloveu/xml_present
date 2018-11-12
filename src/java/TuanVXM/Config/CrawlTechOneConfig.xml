@@ -1,11 +1,57 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-
-
-<root>
-    
-</root>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config>
+    <configs>
+        <attrName>class</attrName>
+        <attrValue>iconlct</attrValue>
+        <tagName>span</tagName>
+    </configs>
+    <configs>
+        <tagName>a</tagName>
+        <wantedAttr>href</wantedAttr>
+    </configs>
+    <configs>
+        <tagName>img</tagName>
+        <wantedAttr>src</wantedAttr>
+    </configs>
+    <configs>
+        <tagName>img</tagName>
+        <wantedAttr>alt</wantedAttr>
+    </configs>
+    <configs>
+        <attrName>class</attrName>
+        <attrValue>price</attrValue>
+        <tagName>span</tagName>
+    </configs>
+    <configs>
+        <attrName>class</attrName>
+        <attrValue>lspecial</attrValue>
+        <tagName>span</tagName>
+    </configs>
+    <configs>
+        <attrName>class</attrName>
+        <attrValue>lmprom</attrValue>
+        <tagName>div</tagName>
+    </configs>
+    <endConfig>
+        <attrName>class</attrName>
+        <attrValue>lmore</attrValue>
+        <tagName>div</tagName>
+    </endConfig>
+    <replaceConfigs>
+        <replacement>itemscope</replacement>
+        <target>itemscope=''</target>
+    </replaceConfigs>
+    <replaceConfigs>
+        <replacement>&amp;</replacement>
+        <target>&amp;amp;</target>
+    </replaceConfigs>
+    <replaceConfigs>
+        <replacement>---</replacement>
+        <target>--</target>
+    </replaceConfigs>
+    <startConfig>
+        <attrName>class</attrName>
+        <attrValue>lli</attrValue>
+        <tagName>li</tagName>
+    </startConfig>
+</config>

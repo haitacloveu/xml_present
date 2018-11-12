@@ -14,11 +14,15 @@ import TuanVXM.Constant.CommonConstant;
 import TuanVXM.DTO.MuaBanProductDTO;
 import TuanVXM.DTO.TechOneProductDTO;
 import TuanVXM.Util.HTMLParserUtil;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLStreamException;
 
 /**
@@ -99,28 +103,24 @@ public class CrawlService {
         return products;
     }
 
-    private static Config regenTechOneCrawlConfig() {
-        Config config = new Config();
-
-        config.setStartConfig(new SingleConfig("li", "class", "lli"));
-        config.setEndConfig(new SingleConfig("div", "class", "lmore"));
-
-        config.getConfigs().add(new SingleConfig("span", "class", "iconlct"));
-        config.getConfigs().add(new SingleConfig("a", null, null, "href"));
-        config.getConfigs().add(new SingleConfig("img", null, null, "src"));
-        config.getConfigs().add(new SingleConfig("img", null, null, "alt"));
-        config.getConfigs().add(new SingleConfig("span", "class", "price"));
-        config.getConfigs().add(new SingleConfig("span", "class", "lspecial"));
-        config.getConfigs().add(new SingleConfig("div", "class", "lmprom"));
-
-        config.getReplaceConfigs().add(new ReplaceConfig("itemscope", "itemscope=''"));
-        config.getReplaceConfigs().add(new ReplaceConfig("&", "&amp;"));
-        config.getReplaceConfigs().add(new ReplaceConfig("---", "--"));
-
-        return config;
+    public static Config regenTechOneCrawlConfig() {
+        try {
+            Config config = new Config();
+            
+            File file = new File(CommonConstant.TECH_ONE_CONFIG_FILE);
+            JAXBContext jaxbContext = JAXBContext.newInstance(Config.class);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            config = (Config) unmarshaller.unmarshal(file);
+            
+            return config;
+        } catch (JAXBException ex) {
+            //Logger.getLogger(CrawlService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return null;
     }
 
-    private static Config regenMuaBanCrawlConfig() {
+    public static Config regenMuaBanCrawlConfig() {
         Config config = new Config();
 
         config.setStartConfig(new SingleConfig("div", "class", "mbn-box-list-content mbn-box-summary"));

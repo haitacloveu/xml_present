@@ -7,11 +7,13 @@ package TuanVXM.Config;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author TuanVXM
  */
+@XmlRootElement
 public class Config {
     private List<ReplaceConfig> replaceConfigs;
     private SingleConfig startConfig;
