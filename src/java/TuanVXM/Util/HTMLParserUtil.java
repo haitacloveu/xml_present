@@ -41,12 +41,15 @@ public class HTMLParserUtil {
             scanner.useDelimiter("\\Z");
             content = scanner.next();
         } catch (Exception ex) {
-            //Logger.getLogger(HTMLParser.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(HTMLParserUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
         return content;
     }
 
     public static String prepareHtml(String html, List<ReplaceConfig> replaceConfigs) {
+        if (html == null) {
+            return null;
+        }
         for (ReplaceConfig config : replaceConfigs) {
             html = html.replace(config.getReplacement(), config.getTarget());
         }
@@ -59,6 +62,9 @@ public class HTMLParserUtil {
         List<List<String>> result = new ArrayList<>();
 
         String html = prepareHtml(loadHtml(url), replaceConfigs);
+        if (html == null) {
+            return result;
+        }
 
         InputStream is = new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8));
 
@@ -67,13 +73,12 @@ public class HTMLParserUtil {
             try {
                 int cursor = reader.next();
                 if (cursor == XMLStreamConstants.START_ELEMENT) {
-                    String tagName = reader.getLocalName();
                     if (matchConfig(startConfig, reader)) {
                         result.add(getNextRecord(reader, configs, endConfig));
                     }
                 }
             } catch (XMLStreamException ex) {
-                //Logger.getLogger(HTMLParser.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(HTMLParserUtil.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NullPointerException ex) {
                 //Logger.getLogger(HTMLParser.class.getName()).log(Level.SEVERE, null, ex);
                 break;
@@ -87,17 +92,17 @@ public class HTMLParserUtil {
             List<SingleConfig> configs, SingleConfig endConfig)
             throws XMLStreamException {
         List<String> result = new ArrayList<>();
-        
+
         for (SingleConfig config : configs) {
             config.setValue(null);
         }
-        
+
         while (reader.hasNext()) {
             try {
                 int cursor = reader.next();
                 if (cursor == XMLStreamConstants.START_ELEMENT) {
                     boolean flagEnd = false;
-                    
+
                     if (matchConfig(endConfig, reader)) {
                         flagEnd = true;
                     }
@@ -105,13 +110,12 @@ public class HTMLParserUtil {
                     for (SingleConfig config : configs) {
                         if (matchConfig(config, reader)) {
                             config.setValue(getConfigValue(config, reader));
-                            System.out.println(config.getValue());
                             if (config.getWantedAttr() == null) {
                                 break;
                             }
                         }
                     }
-                    
+
                     if (flagEnd) {
                         break;
                     }
@@ -120,11 +124,13 @@ public class HTMLParserUtil {
                 //Logger.getLogger(HTMLParser.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         for (SingleConfig config : configs) {
             result.add(config.getValue());
+            //System.out.println(config.getValue());
         }
-        
+
+        //System.out.println("----");
         return result;
     }
 

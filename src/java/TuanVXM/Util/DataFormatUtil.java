@@ -10,10 +10,18 @@ package TuanVXM.Util;
  * @author TuanVXM
  */
 public class DataFormatUtil {
+
     public static long formatPrice(String priceString) {
-        if (priceString == null) return -1;
+        if (priceString == null) {
+            return -1;
+        }
         priceString = priceString.replace(".", "");
         priceString = priceString.replace("đ", "");
-        return Long.parseLong(priceString);
+        priceString = priceString.replace(" ", "");
+        try {
+            return Long.parseLong(priceString);
+        } catch (Exception ex) {
+            return -1;
+        }
     }
 }

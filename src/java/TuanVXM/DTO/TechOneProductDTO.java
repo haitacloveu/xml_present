@@ -20,6 +20,8 @@ public class TechOneProductDTO {
     private long price;
     private long sPrice;
     private String promotion;
+    
+    private int id;
 
     public TechOneProductDTO() {
     }
@@ -99,4 +101,14 @@ public class TechOneProductDTO {
     public void setPromotion(String promotion) {
         this.promotion = promotion;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    
 }
