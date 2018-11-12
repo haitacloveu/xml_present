@@ -42,7 +42,7 @@ public class CrawlService {
             while (true) {
                 page++;
                 String url = regenTechOneSearchUrl(page);
-                System.out.println(url);
+                //System.out.println(url);
                 List<TechOneProductDTO> tmpList = crawlTechOne(url);
                 if (tmpList.isEmpty()) {
                     break;
@@ -50,7 +50,7 @@ public class CrawlService {
                 products.addAll(tmpList);
             }
 
-            System.out.println(products.size());
+            //System.out.println(products.size());
             int id = new Random().nextInt(1000) * 1000;
 
             for (TechOneProductDTO product : products) {

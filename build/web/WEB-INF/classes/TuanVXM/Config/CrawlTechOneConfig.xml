@@ -42,6 +42,14 @@
         <target>itemscope=''</target>
     </replaceConfigs>
     <replaceConfigs>
+        <replacement>C&amp;ocirc;ng ty</replacement>
+        <target>Công ty</target>
+    </replaceConfigs>
+    <replaceConfigs>
+        <replacement>C&amp;ocirc;ng Ty</replacement>
+        <target>Công ty</target>
+    </replaceConfigs>
+    <replaceConfigs>
         <replacement>&amp;</replacement>
         <target>&amp;amp;</target>
     </replaceConfigs>
