@@ -6,12 +6,15 @@
 package TuanVXM.Storage;
 
 import TuanVXM.DTO.MuaBanProductDTO;
-import TuanVXM.DTO.TechOneProductDTO;
 import TuanVXM.Util.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -35,7 +38,7 @@ public class MuaBanProductStorage {
                 conn.close();
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(MuaBanProductStorage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -61,10 +64,43 @@ public class MuaBanProductStorage {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(MuaBanProductStorage.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             closeConnection();
         }
         return false;
+    }
+
+    public List<MuaBanProductDTO> getByTOProductId(int toProductId) {
+        List<MuaBanProductDTO> result = new ArrayList<>();
+        try {
+            conn = DBUtil.getConnection();
+            if (conn != null) {
+                String sql = "SELECT id, toProductId, title, link, imgLink, price, content, address, time "
+                        + "FROM MB_PRODUCT "
+                        + "WHERE toProductId = ?";
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, toProductId);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    MuaBanProductDTO dto = new MuaBanProductDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setToProductId(rs.getInt("toProductId"));
+                    dto.setTitle(rs.getString("title"));
+                    dto.setLink(rs.getString("link"));
+                    dto.setImgLink(rs.getString("imgLink"));
+                    dto.setPrice(rs.getInt("price"));
+                    dto.setContent(rs.getString("content"));
+                    dto.setAddress(rs.getString("address"));
+                    dto.setTime(rs.getString("time"));
+                    result.add(dto);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TechOneProductStorage.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection();
+        }
+        return result;
     }
 }

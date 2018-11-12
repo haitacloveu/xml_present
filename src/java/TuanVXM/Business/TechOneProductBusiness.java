@@ -18,8 +18,12 @@ import java.util.logging.Logger;
 public class TechOneProductBusiness {
 
     public boolean saveProduct(TechOneProductDTO product) {
-        System.out.println("TechOne: 1");
         TechOneProductStorage techOneProductStorage = new TechOneProductStorage();
         return techOneProductStorage.saveProduct(product);
+    }
+    
+    public List<TechOneProductDTO> getProducts() {
+        TechOneProductStorage techOneProductStorage = new TechOneProductStorage();
+        return techOneProductStorage.getProducts();
     }
 }

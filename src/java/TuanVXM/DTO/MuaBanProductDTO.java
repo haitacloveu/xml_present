@@ -22,6 +22,7 @@ public class MuaBanProductDTO {
     private String time;
     
     private int toProductId;
+    private int id;
 
     public MuaBanProductDTO() {
     }
@@ -108,6 +109,14 @@ public class MuaBanProductDTO {
 
     public void setToProductId(int toProductId) {
         this.toProductId = toProductId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
     
     

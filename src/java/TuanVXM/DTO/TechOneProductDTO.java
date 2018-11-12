@@ -22,6 +22,8 @@ public class TechOneProductDTO {
     private String promotion;
     
     private int id;
+    
+    private List<MuaBanProductDTO> oldProducts;
 
     public TechOneProductDTO() {
     }
@@ -108,6 +110,14 @@ public class TechOneProductDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public List<MuaBanProductDTO> getOldProducts() {
+        return oldProducts;
+    }
+
+    public void setOldProducts(List<MuaBanProductDTO> oldProducts) {
+        this.oldProducts = oldProducts;
     }
     
     

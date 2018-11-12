@@ -16,11 +16,15 @@ import java.util.List;
 public class MuaBanProductBusiness {
 
     public boolean saveProducts(List<MuaBanProductDTO> products) {
-        System.out.println("MuaBan: " + products.size());
         MuaBanProductStorage muaBanProductStorage = new MuaBanProductStorage();
         for (MuaBanProductDTO product : products) {
             muaBanProductStorage.saveProduct(product);
         }
         return true;
+    }
+    
+    public List<MuaBanProductDTO> getByTOProductId(int toProductId) {
+        MuaBanProductStorage muaBanProductStorage = new MuaBanProductStorage();
+        return muaBanProductStorage.getByTOProductId(toProductId);
     }
 }

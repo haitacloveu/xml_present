@@ -11,6 +11,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,7 +38,7 @@ public class TechOneProductStorage {
                 conn.close();
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(TechOneProductStorage.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -60,7 +64,7 @@ public class TechOneProductStorage {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(TechOneProductStorage.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             closeConnection();
         }
@@ -94,10 +98,39 @@ public class TechOneProductStorage {
                 }
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(TechOneProductStorage.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             closeConnection();
         }
         return id;
+    }
+
+    public List<TechOneProductDTO> getProducts() {
+        List<TechOneProductDTO> result = new ArrayList<>();
+        try {
+            conn = DBUtil.getConnection();
+            if (conn != null) {
+                String sql = "SELECT id, label, link, imgLink, [name], price, sPrice, promotion FROM TO_PRODUCT";
+                stm = conn.prepareStatement(sql);
+                rs = stm.executeQuery();
+                while (rs.next()) {
+                    TechOneProductDTO dto = new TechOneProductDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setLabel(rs.getString("label"));
+                    dto.setLink(rs.getString("link"));
+                    dto.setImgLink(rs.getString("imgLink"));
+                    dto.setName(rs.getString("name"));
+                    dto.setPrice(rs.getLong("price"));
+                    dto.setsPrice(rs.getLong("sPrice"));
+                    dto.setPromotion(rs.getString("promotion"));
+                    result.add(dto);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TechOneProductStorage.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection();
+        }
+        return result;
     }
 }
