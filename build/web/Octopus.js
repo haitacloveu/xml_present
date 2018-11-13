@@ -6,7 +6,7 @@
 
 let Constant = {
 
-}
+};
 
 let XmlParser = {
     parse: function (xml) {
@@ -15,7 +15,7 @@ let XmlParser = {
         for (let i = 0; i < listRecord.length; i++) {
             result.push(this.parseProduct(listRecord[i]));
         }
-        console.log(result);
+        return result;
     },
 
     parseProduct: function (input) {
@@ -58,12 +58,12 @@ let XmlParser = {
         }
         return "";
     }
-}
+};
 
 let Octopus = {
     init: function () {
-        View.init();
         Model.init();
+        View.init();
 
         this.loadProducts();
     },
@@ -71,6 +71,8 @@ let Octopus = {
     loadProducts: function () {
         Model.loadProducts((result) => {
             let listProduct = XmlParser.parse(result);
+            Model.data.products = listProduct;
+            View.renderProducts(listProduct);
         });
     }
 };

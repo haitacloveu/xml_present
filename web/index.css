@@ -8,6 +8,190 @@ and open the template in the editor.
     Author     : TuanVXM
 */
 
-.red {
-    color: red;
+html {
+    height: calc(100% - 20px);
+    font-family: verdana;
+    min-width: 1063px;
+}
+
+body {
+    height: 100%
+}
+
+#main-div {
+    height: 100%;
+}
+
+.filter {
+    border-bottom: solid 1px #ddd;
+    padding-bottom: 10px;
+    height: 30px;
+}
+
+.filter-left {
+    width: 40%;
+    display: inline-block;
+    line-height: calc(100% + 10px);
+    font-weight: bold;
+}
+
+.filter-right {
+    width: 58%;
+    text-align: right;
+    display: inline-block;
+}
+
+#filter-input {
+    width: 300px;
+    padding-left: 10px;
+}
+
+#filter-submit {
+}
+
+.list-product {
+    margin: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    overflow: auto;
+    max-height: calc(100% - 30px);
+}
+
+.product {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: solid 1px #ddd;
+}
+
+.product-info {
+    width: 25%;
+    display: inline-block;
+    border: solid 1px #ddd;
+    padding: 10px;
+}
+
+.product-label {
+    position: relative;
+    top: -290px;
+    left: 72%;
+    width: 70px;
+    text-align: center;
+    background-color: blue;
+    color: white;
+    padding: 2px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.product-img-container {
+    width: 100%;
+    height: 250px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.product-img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+}
+
+.product-name {
+    color: #3a3a3a;
+    height: 40px;
+    line-height: 20px;
+    font-size: 15px;
+    margin-bottom: -10px;
+}
+
+.product-price {
+    width: 60%;
+    font-size: 15px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.product-sPrice {
+    width: 37%;
+    font-size: 11px;
+    text-align: right;
+    display: inline-block;
+    text-decoration: line-through;
+}
+
+.product-promotion {
+    margin-top: 10px;
+    color: #5b5b5b;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.product-list-old {
+    width: 72%;
+    display: inline-block;
+}
+
+.old-product-container {
+    height: 330px;
+    margin-bottom: 10px;
+}
+
+.product-detail-container {
+    text-align: right;
+    padding-right: 10px;
+}
+
+.old-product {
+    margin-left: 10px;
+    height: 100px;
+    padding-bottom: 10px;
+    border-bottom: solid 1px #ddd;
+}
+
+.old-product-img-container {
+    width: 100px;
+    display: inline-block;
+    text-align: center;
+}
+
+.old-product-img {
+    height: 95px;
+    width: auto;
+    max-width: 95px;
+}
+
+.old-product-info {
+    width: calc(100% - 110px);
+    display: inline-block;
+}
+
+.old-product-title {  
+    color: #3a3a3a;
+    line-height: 20px;
+    font-size: 15px;
+}
+
+.old-product-price {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.old-product-content {
+    height: 50px;
+    font-size: 11px;
+}
+
+.old-product-address {
+    font-size: 11px;
+    font-weight: bold;
+    width: 50%; 
+    display: inline-block;
+}
+
+.old-product-time {
+    font-size: 11px;
+    font-weight: bold;
+    width: 47%; 
+    display: inline-block;
 }

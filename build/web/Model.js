@@ -7,7 +7,9 @@
 
 let Model = {
     init: function () {
-
+        Model.data = {
+            products: []
+        };
     },
 
     loadProducts: function (callback) {
