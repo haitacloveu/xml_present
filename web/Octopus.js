@@ -53,8 +53,11 @@ let XmlParser = {
     },
 
     getTagContent: function (xml, tagName) {
-        if (xml.getElementsByTagName(tagName).length > 0) {
-            return xml.getElementsByTagName(tagName)[0].childNodes[0].nodeValue;
+        let nodes = xml.childNodes;
+        for (let i=0; i<nodes.length; i++) {
+            if (nodes[i].nodeName === tagName) {
+                return nodes[i].childNodes[0].nodeValue;
+            }
         }
         return "";
     }
