@@ -9,9 +9,9 @@ and open the template in the editor.
 */
 
 html {
-    height: calc(100% - 20px);
+    height: calc(100% - 30px);
     font-family: verdana;
-    min-width: 1063px;
+    min-width: 1000px;
 }
 
 body {
@@ -89,6 +89,7 @@ body {
     border-radius: 7px;
     font-size: 14px;
     font-weight: bold;
+    min-height: 21px;
 }
 
 .product-img-container {
