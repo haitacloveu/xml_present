@@ -34,7 +34,8 @@ let Template = {
             '        <div class="old-product-container" id="{id}-old-product-container">' +
             '        </div>' +
             '        <div class="product-detail-container">' +
-            '            <input type="button" class="product-detail" value="Xem thêm"/>' +
+            '            <input type="button" class="product-detail" value="Xem thêm" ' +
+            '               onclick="Octopus.showProductDetail(\'{id}\')"/>' +
             '        </div>' +
             '    </div>' +
             '</div>',
@@ -60,6 +61,31 @@ let Template = {
             '            {time}' +
             '        </div>' +
             '    </div>' +
+            '</div>',
+    noOldProduct:
+            '<div class="no-old-product">Không tìm thấy rao vặt nào!</div>',
+    navigator:
+            '<div class="filter">' +
+            '    <div class="filter-left">' +
+            '        <input type="button" onclick="Octopus.backToHome()" value="Quay Lại"/>' +
+            '    </div>' +
+            '    <div class="filter-right">' +
+            '    </div>' +
+            '</div>',
+    productDetail:
+            '<div class="pd-container">' +
+            '   <div class="pd-img-container">' +
+            '       <img class="pd-img" src="{imgLink}"/>' +
+            '   </div>' +
+            '   <div class="pd-info-container">' +
+            '       <div class="pd-label">{label}</div>' +
+            '       <div class="pd-name">{name}</div>' +
+            '       <div class="pd-price">{price}</div>' +
+            '       <div class="pd-sPrice">{sPrice}</div>' +
+            '       <div class="pd-promotion">{promotion}</div>' +
+            '       <div class="pd-statistic"></div>' +
+            '   </div>' +
+            '   <div id="pd-old-products" class="pd-old-products-container"></div>' +
             '</div>'
 };
 
@@ -132,6 +158,10 @@ let View = {
 
     renderOldProducts: function (containerId, oldProducts) {
         let container = document.getElementById(containerId);
+        if (oldProducts.length === 0) {
+            container.innerHTML = Template.noOldProduct;
+            return;
+        }
         for (let i = 0; i < Math.min(3, oldProducts.length); i++) {
             let template = Template.oldProduct;
             template = StringProcessor.replaceAll(template, "{id}", oldProducts[i].id);
@@ -149,12 +179,56 @@ let View = {
         View.clearMainDiv();
         View.renderFilter();
         View.renderProductsContainer();
-        for (let i = 0; i < products.length; i++) {
+        for (let i = 0; i < Math.min(50, products.length); i++) {
             View.renderProduct(products[i]);
         }
     },
-    
-    getSearchKeyword: function() {
+
+    renderSearchKeyword: function (keyword) {
+        console.log();
+        document.getElementById("filter-input").value = keyword;
+    },
+
+    getSearchKeyword: function () {
         return document.getElementById("filter-input").value;
+    },
+
+    renderDetailNavigator: function () {
+        View.dom.mainDiv.innerHTML = View.dom.mainDiv.innerHTML + Template.navigator;
+    },
+
+    renderProductDetailContainer: function (product) {
+        let template = Template.productDetail;
+        template = StringProcessor.replaceAll(template, "{id}", product.id);
+        template = StringProcessor.replaceAll(template, "{label}", product.label);
+        template = StringProcessor.replaceAll(template, "{name}", product.name);
+        template = StringProcessor.replaceAll(template, "{link}", product.link);
+        template = StringProcessor.replaceAll(template, "{imgLink}", product.imgLink);
+        template = StringProcessor.replaceAll(template, "{price}", StringProcessor.formatPrice(product.price));
+        template = StringProcessor.replaceAll(template, "{sPrice}", StringProcessor.formatPrice(product.sPrice));
+        template = StringProcessor.replaceAll(template, "{promotion}", product.promotion);
+        View.dom.mainDiv.innerHTML = View.dom.mainDiv.innerHTML + template;
+    },
+
+    renderProductDetailOldProducts: function (products) {
+        for (let i = 0; i < products.length; i++) {
+            let template = Template.oldProduct;     
+            template = StringProcessor.replaceAll(template, "{id}", products[i].id);
+            template = StringProcessor.replaceAll(template, "{imgLink}", products[i].imgLink);
+            template = StringProcessor.replaceAll(template, "{title}", products[i].title);
+            template = StringProcessor.replaceAll(template, "{price}", StringProcessor.formatPrice(products[i].price));
+            template = StringProcessor.replaceAll(template, "{content}", products[i].content);
+            template = StringProcessor.replaceAll(template, "{address}", products[i].address);
+            template = StringProcessor.replaceAll(template, "{time}", products[i].time);
+            document.getElementById("pd-old-products").innerHTML = 
+                    document.getElementById("pd-old-products").innerHTML + template;
+        }
+    },
+
+    showProductDetail: function (product) {
+        View.clearMainDiv();
+        View.renderDetailNavigator();
+        View.renderProductDetailContainer(product);
+        View.renderProductDetailOldProducts(product.oldProduct);
     }
 };

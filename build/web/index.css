@@ -208,3 +208,85 @@ body {
     width: 47%; 
     display: inline-block;
 }
+
+.no-old-product {
+    padding-left: 30px;
+    font-size: 13px;
+}
+
+.pd-container {
+    margin: 20px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    height: calc(100% - 30px);
+    overflow: auto
+}
+
+.pd-img-container {
+    height: 400px;
+    width: 46%;
+    margin-top: 10px;
+    margin-right: 2%;
+    text-align: center;
+    display: inline-block;
+}
+
+.pd-img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+}
+
+.pd-info-container {
+    height: 400px;
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 10px;
+}
+
+.pd-old-products-container {
+    margin-top: 10px;
+    padding-top: 5px;
+    border-top: solid 2px #606060;
+}
+
+.pd-label {    
+    min-width: 70px;
+    display: inline-block;
+    text-align: center;
+    background-color: blue;
+    color: white;
+    padding: 2px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 21px;
+}
+
+.pd-name {
+    color: #3a3a3a;
+    line-height: 20px;
+    font-size: 15px;
+}
+
+.pd-price {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.pd-sPrice {
+    display: inline-block;
+    font-size: 11px;
+    text-decoration: line-through;
+    padding-left: 10px;
+}
+
+.pd-promotion {
+    color: #5b5b5b;
+    font-size: 13px;
+    font-weight: bold;
+}

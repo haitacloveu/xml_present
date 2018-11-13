@@ -38,23 +38,23 @@ let XmlParser = {
         return result;
     },
 
-    parseOldProduct: function (input) {        
+    parseOldProduct: function (input) {
         let result = {};
-        result.id = this.getTagContent(input, "id");  
-        result.toProductId = this.getTagContent(input, "toProductId");   
-        result.title = this.getTagContent(input, "title");   
-        result.link = this.getTagContent(input, "link");   
-        result.imgLink = this.getTagContent(input, "imgLink");   
-        result.price = this.getTagContent(input, "price");   
-        result.content = this.getTagContent(input, "content");   
-        result.address = this.getTagContent(input, "address");   
-        result.time = this.getTagContent(input, "time");       
+        result.id = this.getTagContent(input, "id");
+        result.toProductId = this.getTagContent(input, "toProductId");
+        result.title = this.getTagContent(input, "title");
+        result.link = this.getTagContent(input, "link");
+        result.imgLink = this.getTagContent(input, "imgLink");
+        result.price = this.getTagContent(input, "price");
+        result.content = this.getTagContent(input, "content");
+        result.address = this.getTagContent(input, "address");
+        result.time = this.getTagContent(input, "time");
         return result;
     },
 
     getTagContent: function (xml, tagName) {
         let nodes = xml.childNodes;
-        for (let i=0; i<nodes.length; i++) {
+        for (let i = 0; i < nodes.length; i++) {
             if (nodes[i].nodeName === tagName) {
                 return nodes[i].childNodes[0].nodeValue;
             }
@@ -75,20 +75,65 @@ let Octopus = {
         Model.loadProducts((result) => {
             let listProduct = XmlParser.parse(result);
             Model.data.products = listProduct;
-            View.renderProducts(listProduct);
+            Octopus.firstRender();
         });
     },
-    
-    search: function() {
-        let keyword = View.getSearchKeyword();
+
+    firstRender: function () {
+        if (UrlManager.getParam("page") === "detail") {
+            if (Octopus.showProductDetail(UrlManager.getParam("productId"))) {
+                return;
+            }
+        }
+        Octopus.showHome();
+    },
+
+    showHome: function () {
+        let search = UrlManager.getParam("search");
+        if (search !== null && search.length > 0) {
+            Octopus.search(search);
+        } else {
+            View.renderProducts(Model.data.products);
+        }
+        UrlManager.removeParam("page");
+        UrlManager.removeParam("productId");
+    },
+
+    showProductDetail: function (id) {
+        let product = Model.getProduct(id);
+        if (product !== null) {
+            View.showProductDetail(product);
+            UrlManager.addParam("page", "detail");
+            UrlManager.addParam("productId", id);
+            return true;
+        }
+        return false;
+    },
+
+    search: function (keyword) {
+        if (!keyword) {
+            keyword = View.getSearchKeyword();
+        }
         let products = Model.data.products;
         let searchResult = [];
-        for (let i=0; i<products.length; i++) {
+        for (let i = 0; i < products.length; i++) {
             if (products[i].name.toLowerCase().includes(keyword.toLowerCase())) {
                 searchResult.push(products[i]);
             }
         }
         View.renderProducts(searchResult);
+        setTimeout(() => {
+            View.renderSearchKeyword(keyword);
+        }, 100);
+        if (keyword.length > 0) {
+            UrlManager.addParam("search", keyword);
+        } else {
+            UrlManager.removeParam("search");
+        }
+    },
+
+    backToHome: function () {
+        Octopus.showHome();
     }
 };
 

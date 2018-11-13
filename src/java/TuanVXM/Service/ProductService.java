@@ -42,7 +42,6 @@ public class ProductService {
             StringWriter sw = new StringWriter();
             jaxbMarshaller.marshal(productsDTO, sw);
             result = sw.toString();
-            System.out.println(result);
         } catch (JAXBException ex) {
             Logger.getLogger(ProductService.class.getName()).log(Level.SEVERE, null, ex);
         }

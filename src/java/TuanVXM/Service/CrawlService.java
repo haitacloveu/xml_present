@@ -147,6 +147,8 @@ public class CrawlService {
     private String regenMuaBanSearchUrl(String keyword) {
         String result = CommonConstant.MUA_BAN_URL_PATTERN;
         keyword = keyword.replace("Công ty", "");
+        keyword = keyword.replace("TechOne", "");
+        keyword = keyword.replace("Like New", "");
         keyword = keyword.replace(" ", "%20");
         result = result.replace("{search}", keyword);
         return result;
