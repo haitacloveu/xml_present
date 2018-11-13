@@ -74,6 +74,18 @@ let Octopus = {
             Model.data.products = listProduct;
             View.renderProducts(listProduct);
         });
+    },
+    
+    search: function() {
+        let keyword = View.getSearchKeyword();
+        let products = Model.data.products;
+        let searchResult = [];
+        for (let i=0; i<products.length; i++) {
+            if (products[i].name.toLowerCase().includes(keyword.toLowerCase())) {
+                searchResult.push(products[i]);
+            }
+        }
+        View.renderProducts(searchResult);
     }
 };
 
