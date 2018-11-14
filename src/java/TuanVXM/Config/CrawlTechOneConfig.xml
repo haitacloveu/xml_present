@@ -54,6 +54,10 @@
         <target>&amp;amp;</target>
     </replaceConfigs>
     <replaceConfigs>
+        <replacement>--------------------------------------------------</replacement>
+        <target>--</target>
+    </replaceConfigs>
+    <replaceConfigs>
         <replacement>---</replacement>
         <target>--</target>
     </replaceConfigs>

@@ -33,7 +33,7 @@
     </head>
     <body>
         <div class="welcome">Chào mừng quản lý!</div>
-        <button onclick="crawl()">
+        <button id="crawl-button" onclick="crawl()">
             Cào dữ liệu
         </button>
         <button onclick="crawl()">
@@ -44,8 +44,9 @@
 
     <script>
         function crawl() {
+            document.getElementById("crawl-button").disabled = true;
             document.getElementById("notify").innerHTML =
-                    '<div class="crawling-notify">Đang cào dữ liệu, xin vùi lòng đợi 5 phút!</div>';
+                    '<div class="crawling-notify">Đang cào dữ liệu, xin vui lòng đợi 5 phút!</div>';
             let xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {

@@ -59,7 +59,7 @@ public class CrawlService {
                 if (techOneProductBusiness.saveProduct(product)) {
                     String searchUrl = regenMuaBanSearchUrl(product.getName());
 
-                    System.out.println(searchUrl);
+                    //System.out.println(searchUrl);
                     List<MuaBanProductDTO> muaBanProductDTOs = crawlMuaBan(searchUrl);
                     for (MuaBanProductDTO dto : muaBanProductDTOs) {
                         dto.setToProductId(id);

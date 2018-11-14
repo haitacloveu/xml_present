@@ -7,11 +7,11 @@ package TuanVXM.Util;
 
 import TuanVXM.Config.ReplaceConfig;
 import TuanVXM.Config.SingleConfig;
-import TuanVXM.DTO.TechOneProductDTO;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.TagName;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
@@ -34,12 +34,17 @@ public class HTMLParserUtil {
 
     public static String loadHtml(String url) {
         String content = null;
-        URLConnection connection = null;
+        InputStream is = null;
+        BufferedReader br;
+        String line;
         try {
-            connection = new URL(url).openConnection();
-            Scanner scanner = new Scanner(connection.getInputStream());
-            scanner.useDelimiter("\\Z");
-            content = scanner.next();
+            is = new URL(url).openStream();  // throws an IOException
+            br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+            content = "";
+            while ((line = br.readLine()) != null) {
+                content += line + "\n";
+            }
+            return content;
         } catch (Exception ex) {
             //Logger.getLogger(HTMLParserUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -80,7 +85,7 @@ public class HTMLParserUtil {
             } catch (XMLStreamException ex) {
                 //Logger.getLogger(HTMLParserUtil.class.getName()).log(Level.SEVERE, null, ex);
             } catch (NullPointerException ex) {
-                //Logger.getLogger(HTMLParser.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(HTMLParserUtil.class.getName()).log(Level.SEVERE, null, ex);
                 break;
             }
         }
