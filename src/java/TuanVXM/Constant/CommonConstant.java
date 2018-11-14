@@ -12,6 +12,8 @@ package TuanVXM.Constant;
 public class CommonConstant {
 
     public static final String CHARSET_UTF8 = "UTF-8";
+    
+    public static final String PAGE_ADMIN = "admin.jsp";
 
     public static final String TECH_ONE_PREFIX = "http://www.techone.vn/";
     public static final String TECH_ONE_URL_PATTERN = "http://www.techone.vn/dien-thoai/&page={page}";

@@ -5,11 +5,13 @@
  */
 package TuanVXM.Controller;
 
+import TuanVXM.Service.CrawlService;
 import TuanVXM.Service.ProductService;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 
@@ -31,7 +33,9 @@ public class ProductResource {
     }
 
     /**
-     * Retrieves representation of an instance of TuanVXM.Controller.GenericResource
+     * Retrieves representation of an instance of
+     * TuanVXM.Controller.GenericResource
+     *
      * @return an instance of java.lang.String
      */
     @GET
@@ -39,5 +43,14 @@ public class ProductResource {
     public String getProducts() {
         String result = new ProductService().getAllProducts();
         return result;
+    }
+
+    @PUT
+    public String crawl() {
+        if (new CrawlService().crawl()) {
+            return "Cào dữ liệu thành công!";
+        } else {
+            return "Có lỗi xảy ra";
+        }
     }
 }
