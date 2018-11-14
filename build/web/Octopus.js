@@ -121,6 +121,16 @@ let Octopus = {
                 searchResult.push(products[i]);
             }
         }
+        for (let i = 0; i < products.length; i++) {
+            let choosed = false;
+            for (let j = 0; j < searchResult.length; j++)
+                if (products[i].id === searchResult[j].id)
+                    choosed = true;
+            if (!choosed) {
+                if (StringProcessor.lcs(keyword, products[i].name) > keyword.length / 2)
+                    searchResult.push(products[i]);
+            }
+        }
         View.renderProducts(searchResult);
         setTimeout(() => {
             View.renderSearchKeyword(keyword);

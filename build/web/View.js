@@ -12,8 +12,10 @@ let Template = {
             '        Tra cứu điện thoại' +
             '    </div>' +
             '    <div class="filter-right">' +
-            '        <input id="filter-input" type="text" placeholder="Nhập tên máy"/>' +
-            '        <input id="filter-submit" type="button" value="Tìm kiếm" onclick="Octopus.search()"/>' +
+            '        <form onsubmit="Octopus.search()">' +
+            '            <input id="filter-input" type="text" placeholder="Nhập tên máy"/>' +
+            '            <input id="filter-submit" type="submit" value="Tìm kiếm"/>' +
+            '        </form>' +
             '    </div>' +
             '</div>',
     listProduct:
@@ -117,6 +119,28 @@ let StringProcessor = {
             result = tho + "." + StringProcessor.addZero(input) + "đ";
         }
         return result;
+    },
+
+    lcs: function (s1, s2) {
+        let f = [];
+        for (let i = 0; i <= s1.length; i++) {
+            f.push([]);
+            for (let j = 0; j <= s2.length; j++) {
+                f[i].push(0);
+            }
+        }
+
+        for (let i = 1; i <= s1.length; i++) {
+            for (let j = 1; j <= s2.length; j++) {
+                if (s1[i - 1] === s2[j - 1]) {
+                    f[i][j] = f[i - 1][j - 1] + 1;
+                } else {
+                    f[i][j] = Math.max(f[i - 1][j], f[i][j - 1]);
+                }
+            }
+        }
+
+        return f[s1.length][s2.length];
     }
 };
 
@@ -212,7 +236,7 @@ let View = {
 
     renderProductDetailOldProducts: function (products) {
         for (let i = 0; i < products.length; i++) {
-            let template = Template.oldProduct;     
+            let template = Template.oldProduct;
             template = StringProcessor.replaceAll(template, "{id}", products[i].id);
             template = StringProcessor.replaceAll(template, "{imgLink}", products[i].imgLink);
             template = StringProcessor.replaceAll(template, "{title}", products[i].title);
@@ -220,7 +244,7 @@ let View = {
             template = StringProcessor.replaceAll(template, "{content}", products[i].content);
             template = StringProcessor.replaceAll(template, "{address}", products[i].address);
             template = StringProcessor.replaceAll(template, "{time}", products[i].time);
-            document.getElementById("pd-old-products").innerHTML = 
+            document.getElementById("pd-old-products").innerHTML =
                     document.getElementById("pd-old-products").innerHTML + template;
         }
     },
