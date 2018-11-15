@@ -81,6 +81,9 @@ let Template = {
             '   </div>' +
             '   <div class="pd-info-container">' +
             '       <div class="pd-label">{label}</div>' +
+            '       <div class="pd-link">' +
+            '           <a href="{link}" rel="noopener noreferrer" target="_blank">Xem trên TechOne</a>' + 
+            '       </div>' +
             '       <div class="pd-name">{name}</div>' +
             '       <div class="pd-price">{price}</div>' +
             '       <div class="pd-sPrice">{sPrice}</div>' +
@@ -88,6 +91,32 @@ let Template = {
             '       <div class="pd-statistic"></div>' +
             '   </div>' +
             '   <div id="pd-old-products" class="pd-old-products-container"></div>' +
+            '</div>',
+    pdOldProduct:
+            '<div class="old-product">' +
+            '    <div class="old-product-img-container">' +
+            '        <img class="old-product-img" src="{imgLink}"/>' +
+            '    </div>' +
+            '    <div class="old-product-info">' +
+            '        <div class="pd-old-product-title">' +
+            '            {title}' +
+            '        </div>' +
+            '       <div class="pd-old-product-link">' +
+            '           <a href="{link}" rel="noopener noreferrer" target="_blank">Xem trên MuaBan</a>' + 
+            '       </div>' +
+            '        <div class="old-product-price">' +
+            '            {price}' +
+            '        </div>' +
+            '        <div class="old-product-content">' +
+            '            {content}' +
+            '        </div>' +
+            '        <div class="old-product-address">' +
+            '            {address}' +
+            '        </div>' +
+            '        <div class="old-product-time">' +
+            '            {time}' +
+            '        </div>' +
+            '    </div>' +
             '</div>'
 };
 
@@ -236,8 +265,9 @@ let View = {
 
     renderProductDetailOldProducts: function (products) {
         for (let i = 0; i < products.length; i++) {
-            let template = Template.oldProduct;
+            let template = Template.pdOldProduct;
             template = StringProcessor.replaceAll(template, "{id}", products[i].id);
+            template = StringProcessor.replaceAll(template, "{link}", products[i].link);
             template = StringProcessor.replaceAll(template, "{imgLink}", products[i].imgLink);
             template = StringProcessor.replaceAll(template, "{title}", products[i].title);
             template = StringProcessor.replaceAll(template, "{price}", StringProcessor.formatPrice(products[i].price));

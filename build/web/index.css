@@ -198,7 +198,7 @@ body {
 .old-product-address {
     font-size: 11px;
     font-weight: bold;
-    width: 50%; 
+    width: 30%; 
     display: inline-block;
 }
 
@@ -253,6 +253,7 @@ body {
 
 .pd-label {    
     min-width: 70px;
+    max-width: 50%;
     display: inline-block;
     text-align: center;
     background-color: blue;
@@ -262,6 +263,15 @@ body {
     font-size: 14px;
     font-weight: bold;
     min-height: 21px;
+}
+
+.pd-link {
+    width: 40%;
+    float: right;
+    text-align: right;
+    display: inline-block;
+    right: 0;
+    font-size: 13px;
 }
 
 .pd-name {
@@ -289,4 +299,25 @@ body {
     color: #5b5b5b;
     font-size: 13px;
     font-weight: bold;
+}
+
+.pd-old-product-title {  
+    color: #3a3a3a;
+    line-height: 20px;
+    font-size: 15px;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    width: 70%;
+}
+
+.pd-old-product-link {
+    width: 25%;
+    float: right;
+    text-align: right;
+    display: inline-block;
+    right: 0;
+    font-size: 13px;
+    padding-right: 15px;
 }
