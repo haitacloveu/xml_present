@@ -28,7 +28,7 @@ import org.apache.tomcat.util.http.parser.HttpParser;
 public class Main {
 
     public static void main(String[] args) throws XMLStreamException, JAXBException {     
-        new CrawlService().crawl();
+        //new CrawlService().crawl();
         
         //File file = new File();
         //JAXBContext jaxbContext = JAXBContext.newInstance(Config.class);

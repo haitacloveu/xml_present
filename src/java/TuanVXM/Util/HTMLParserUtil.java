@@ -33,6 +33,7 @@ import javax.xml.transform.stream.StreamSource;
 public class HTMLParserUtil {
 
     public static String loadHtml(String url) {
+        System.out.println(url);
         String content = null;
         InputStream is = null;
         BufferedReader br;

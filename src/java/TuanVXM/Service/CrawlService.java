@@ -15,11 +15,13 @@ import TuanVXM.DTO.MuaBanProductDTO;
 import TuanVXM.DTO.TechOneProductDTO;
 import TuanVXM.Util.HTMLParserUtil;
 import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -31,7 +33,7 @@ import javax.xml.stream.XMLStreamException;
  */
 public class CrawlService {
 
-    public boolean crawl() {
+    public boolean crawl(String realPath) {
         TechOneProductBusiness techOneProductBusiness = new TechOneProductBusiness();
         MuaBanProductBusiness muaBanProductBusiness = new MuaBanProductBusiness();
 
@@ -43,7 +45,7 @@ public class CrawlService {
                 page++;
                 String url = regenTechOneSearchUrl(page);
                 //System.out.println(url);
-                List<TechOneProductDTO> tmpList = crawlTechOne(url);
+                List<TechOneProductDTO> tmpList = crawlTechOne(url, realPath);
                 if (tmpList.isEmpty()) {
                     break;
                 }
@@ -60,7 +62,7 @@ public class CrawlService {
                     String searchUrl = regenMuaBanSearchUrl(product.getName());
 
                     //System.out.println(searchUrl);
-                    List<MuaBanProductDTO> muaBanProductDTOs = crawlMuaBan(searchUrl);
+                    List<MuaBanProductDTO> muaBanProductDTOs = crawlMuaBan(searchUrl, realPath);
                     for (MuaBanProductDTO dto : muaBanProductDTOs) {
                         dto.setToProductId(id);
                     }
@@ -69,13 +71,17 @@ public class CrawlService {
             }
 
             return true;
-        } catch (XMLStreamException ex) {
+        } catch (Exception ex) {
             return false;
         }
     }
 
-    public List<TechOneProductDTO> crawlTechOne(String url) throws XMLStreamException {
-        Config config = regenTechOneCrawlConfig();
+    public List<TechOneProductDTO> crawlTechOne(String url, String realPath) throws XMLStreamException {
+        Config config = regenTechOneCrawlConfig(realPath);
+
+        if (config == null) {
+            return null;
+        }
 
         List<List<String>> list = HTMLParserUtil.parseHtml(url, config.getReplaceConfigs(),
                 config.getStartConfig(), config.getEndConfig(), config.getConfigs());
@@ -89,8 +95,12 @@ public class CrawlService {
         return products;
     }
 
-    public List<MuaBanProductDTO> crawlMuaBan(String url) throws XMLStreamException {
-        Config config = regenMuaBanCrawlConfig();
+    public List<MuaBanProductDTO> crawlMuaBan(String url, String realPath) throws XMLStreamException {
+        Config config = regenMuaBanCrawlConfig(realPath);
+
+        if (config == null) {
+            return null;
+        }
 
         List<List<String>> list = HTMLParserUtil.parseHtml(url, config.getReplaceConfigs(),
                 config.getStartConfig(), config.getEndConfig(), config.getConfigs());
@@ -104,37 +114,43 @@ public class CrawlService {
         return products;
     }
 
-    public static Config regenTechOneCrawlConfig() {
+    public static Config regenTechOneCrawlConfig(String realPath) {
         try {
             Config config = new Config();
-            
-            File file = new File(CommonConstant.TECH_ONE_CONFIG_FILE);
+
+            File file = new File(realPath + CommonConstant.TECH_ONE_CONFIG_FILE);
             JAXBContext jaxbContext = JAXBContext.newInstance(Config.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             config = (Config) unmarshaller.unmarshal(file);
-            
+
             return config;
         } catch (JAXBException ex) {
             //Logger.getLogger(CrawlService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(CrawlService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        
+
         return null;
     }
 
-    public static Config regenMuaBanCrawlConfig() {
+    public static Config regenMuaBanCrawlConfig(String realPath) {
         try {
             Config config = new Config();
-            
-            File file = new File(CommonConstant.MUA_BAN_CONFIG_FILE);
+
+            File file = new File(realPath + CommonConstant.MUA_BAN_CONFIG_FILE);
             JAXBContext jaxbContext = JAXBContext.newInstance(Config.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             config = (Config) unmarshaller.unmarshal(file);
-            
+
             return config;
         } catch (JAXBException ex) {
             //Logger.getLogger(CrawlService.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(CrawlService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
-        
+
         return null;
     }
 

@@ -7,6 +7,7 @@ package TuanVXM.Controller;
 
 import TuanVXM.Service.CrawlService;
 import TuanVXM.Service.ProductService;
+import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -47,8 +48,9 @@ public class ProductResource {
     }
 
     @PUT
-    public String crawl() {
-        if (new CrawlService().crawl()) {
+    public String crawl(@Context ServletContext servletContext) {
+        String realPath = servletContext.getRealPath("/");
+        if (new CrawlService().crawl(realPath)) {
             return "Cào dữ liệu thành công!";
         } else {
             return "Có lỗi xảy ra";
