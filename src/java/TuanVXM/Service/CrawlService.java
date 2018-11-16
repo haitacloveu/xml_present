@@ -58,16 +58,8 @@ public class CrawlService {
             for (TechOneProductDTO product : products) {
                 id++;
                 product.setId(id);
-                if (techOneProductBusiness.saveProduct(product)) {
-                    String searchUrl = regenMuaBanSearchUrl(product.getName());
-
-                    //System.out.println(searchUrl);
-                    List<MuaBanProductDTO> muaBanProductDTOs = crawlMuaBan(searchUrl, realPath);
-                    for (MuaBanProductDTO dto : muaBanProductDTOs) {
-                        dto.setToProductId(id);
-                    }
-                    muaBanProductBusiness.saveProducts(muaBanProductDTOs);
-                }
+                CrawlRunable runable = new CrawlRunable(id, product, realPath);
+                runable.run();
             }
 
             return true;
@@ -154,13 +146,13 @@ public class CrawlService {
         return null;
     }
 
-    private String regenTechOneSearchUrl(int page) {
+    public String regenTechOneSearchUrl(int page) {
         String result = CommonConstant.TECH_ONE_URL_PATTERN;
         result = result.replace("{page}", Integer.toString(page));
         return result;
     }
 
-    private String regenMuaBanSearchUrl(String keyword) {
+    public String regenMuaBanSearchUrl(String keyword) {
         String result = CommonConstant.MUA_BAN_URL_PATTERN;
         keyword = keyword.replace("Công ty", "");
         keyword = keyword.replace("TechOne", "");
