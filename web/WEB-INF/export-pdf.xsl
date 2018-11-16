@@ -33,108 +33,129 @@
                         Thông tin máy
                     </fo:block>
                     
-                    <fo:table font-size="10pt" table-layout="fixed">
+                    <fo:table>
                         <fo:table-column column-width="proportional-column-width(20)"/>
                         <fo:table-column column-width="proportional-column-width(80)"/>
                         <fo:table-body>
-                            <fo:table-row >
-                                <fo:table-cell padding-top="0.1in">
-                                    <fo:block>
-                                        ID:
-                                    </fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell padding-top="0.1in">                                   
-                                    <fo:block>
-                                        <xsl:value-of select="./id"/>
-                                    </fo:block>
-                                </fo:table-cell>
-                            </fo:table-row>
                             <fo:table-row>
-                                <fo:table-cell padding-top="0.1in">
+                                <fo:table-cell>
                                     <fo:block>
-                                        Tên máy:
+                                        <fo:external-graphic width="100px" height="100px">
+                                            <xsl:attribute name="src">
+                                                <xsl:value-of select="./imgLink"/>
+                                            </xsl:attribute>
+                                        </fo:external-graphic>
                                     </fo:block>
                                 </fo:table-cell>
-                                <fo:table-cell padding-top="0.1in">                                   
-                                    <fo:block>
-                                        <xsl:value-of select="./name"/>
-                                    </fo:block>
+                                <fo:table-cell>
+                                    
+                                    <fo:table font-size="10pt" table-layout="fixed">
+                                        <fo:table-column column-width="proportional-column-width(20)"/>
+                                        <fo:table-column column-width="proportional-column-width(80)"/>
+                                        <fo:table-body>
+                                            <fo:table-row >
+                                                <fo:table-cell padding-top="0.1in">
+                                                    <fo:block>
+                                                        ID:
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                                <fo:table-cell padding-top="0.1in">                                   
+                                                    <fo:block>
+                                                        <xsl:value-of select="./id"/>
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                            </fo:table-row>
+                                            <fo:table-row>
+                                                <fo:table-cell padding-top="0.1in">
+                                                    <fo:block>
+                                                        Tên máy:
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                                <fo:table-cell padding-top="0.1in">                                   
+                                                    <fo:block>
+                                                        <xsl:value-of select="./name"/>
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                            </fo:table-row>
+                                            <fo:table-row>
+                                                <fo:table-cell padding-top="0.1in">
+                                                    <fo:block>
+                                                        Link:
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                                <fo:table-cell padding-top="0.1in">                                   
+                                                    <fo:block>
+                                                        <xsl:value-of select="./link"/>
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                            </fo:table-row>
+                                            <fo:table-row>
+                                                <fo:table-cell padding-top="0.1in">
+                                                    <fo:block>
+                                                        Ảnh:
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                                <fo:table-cell padding-top="0.1in">                                   
+                                                    <fo:block>
+                                                        <xsl:value-of select="./imgLink"/>
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                            </fo:table-row>
+                                            <fo:table-row>
+                                                <fo:table-cell padding-top="0.1in">
+                                                    <fo:block>
+                                                        Giá:
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                                <fo:table-cell padding-top="0.1in">                                   
+                                                    <fo:block>
+                                                        <xsl:value-of select="./price"/>
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                            </fo:table-row>
+                                            <fo:table-row>
+                                                <fo:table-cell padding-top="0.1in">
+                                                    <fo:block>
+                                                        Giá gốc:
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                                <fo:table-cell padding-top="0.1in">                                   
+                                                    <fo:block>
+                                                        <xsl:value-of select="./sPrice"/>
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                            </fo:table-row>
+                                            <fo:table-row>
+                                                <fo:table-cell padding-top="0.1in">
+                                                    <fo:block>
+                                                        Nhãn:
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                                <fo:table-cell padding-top="0.1in">                                   
+                                                    <fo:block>
+                                                        <xsl:value-of select="./label"/>
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                            </fo:table-row>
+                                            <fo:table-row>
+                                                <fo:table-cell padding-top="0.1in">
+                                                    <fo:block>
+                                                        Khuyễn mãi:
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                                <fo:table-cell padding-top="0.1in">                                   
+                                                    <fo:block>
+                                                        <xsl:value-of select="./promotion"/>
+                                                    </fo:block>
+                                                </fo:table-cell>
+                                            </fo:table-row>
+                                        </fo:table-body>                        
+                                    </fo:table>   
+                                    
                                 </fo:table-cell>
                             </fo:table-row>
-                            <fo:table-row>
-                                <fo:table-cell padding-top="0.1in">
-                                    <fo:block>
-                                        Link:
-                                    </fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell padding-top="0.1in">                                   
-                                    <fo:block>
-                                        <xsl:value-of select="./link"/>
-                                    </fo:block>
-                                </fo:table-cell>
-                            </fo:table-row>
-                            <fo:table-row>
-                                <fo:table-cell padding-top="0.1in">
-                                    <fo:block>
-                                        Ảnh:
-                                    </fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell padding-top="0.1in">                                   
-                                    <fo:block>
-                                        <xsl:value-of select="./imgLink"/>
-                                    </fo:block>
-                                </fo:table-cell>
-                            </fo:table-row>
-                            <fo:table-row>
-                                <fo:table-cell padding-top="0.1in">
-                                    <fo:block>
-                                        Giá:
-                                    </fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell padding-top="0.1in">                                   
-                                    <fo:block>
-                                        <xsl:value-of select="./price"/>
-                                    </fo:block>
-                                </fo:table-cell>
-                            </fo:table-row>
-                            <fo:table-row>
-                                <fo:table-cell padding-top="0.1in">
-                                    <fo:block>
-                                        Giá gốc:
-                                    </fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell padding-top="0.1in">                                   
-                                    <fo:block>
-                                        <xsl:value-of select="./sPrice"/>
-                                    </fo:block>
-                                </fo:table-cell>
-                            </fo:table-row>
-                            <fo:table-row>
-                                <fo:table-cell padding-top="0.1in">
-                                    <fo:block>
-                                        Nhãn:
-                                    </fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell padding-top="0.1in">                                   
-                                    <fo:block>
-                                        <xsl:value-of select="./label"/>
-                                    </fo:block>
-                                </fo:table-cell>
-                            </fo:table-row>
-                            <fo:table-row>
-                                <fo:table-cell padding-top="0.1in">
-                                    <fo:block>
-                                        Khuyễn mãi:
-                                    </fo:block>
-                                </fo:table-cell>
-                                <fo:table-cell padding-top="0.1in">                                   
-                                    <fo:block>
-                                        <xsl:value-of select="./promotion"/>
-                                    </fo:block>
-                                </fo:table-cell>
-                            </fo:table-row>
-                        </fo:table-body>                        
-                    </fo:table>                   
+                        </fo:table-body>
+                    </fo:table>                                    
                                                             
                     <fo:block margin-top="0.2in" margin-bottom="0.1in">
                         Các rao vặt liên quan:
