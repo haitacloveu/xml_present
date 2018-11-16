@@ -144,6 +144,10 @@ let Octopus = {
 
     backToHome: function () {
         Octopus.showHome();
+    },
+
+    getPdf: function (id) {
+        Model.loadPdf(id);
     }
 };
 

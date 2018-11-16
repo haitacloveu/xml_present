@@ -72,6 +72,7 @@ let Template = {
             '        <input type="button" onclick="Octopus.backToHome()" value="Quay Lại"/>' +
             '    </div>' +
             '    <div class="filter-right">' +
+            '       <input type="button" value="Xuất ra file PDF" onclick="Octopus.getPdf(\'{id}\')"/>' +
             '    </div>' +
             '</div>',
     productDetail:
@@ -246,8 +247,10 @@ let View = {
         return document.getElementById("filter-input").value;
     },
 
-    renderDetailNavigator: function () {
-        View.dom.mainDiv.innerHTML = View.dom.mainDiv.innerHTML + Template.navigator;
+    renderDetailNavigator: function (product) {
+        let template = Template.navigator;
+        View.dom.mainDiv.innerHTML = View.dom.mainDiv.innerHTML + 
+                StringProcessor.replaceAll(template, '{id}', product.id);
     },
 
     renderProductDetailContainer: function (product) {
@@ -281,7 +284,7 @@ let View = {
 
     showProductDetail: function (product) {
         View.clearMainDiv();
-        View.renderDetailNavigator();
+        View.renderDetailNavigator(product);
         View.renderProductDetailContainer(product);
         View.renderProductDetailOldProducts(product.oldProduct);
     }

@@ -36,9 +36,6 @@
         <button id="crawl-button" onclick="crawl()">
             Cào dữ liệu
         </button>
-        <button onclick="crawl()">
-            Tải xuống báo cáo
-        </button>
         <div id="notify"></div>
     </body>
 

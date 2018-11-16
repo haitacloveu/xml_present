@@ -26,4 +26,10 @@ public class TechOneProductBusiness {
         TechOneProductStorage techOneProductStorage = new TechOneProductStorage();
         return techOneProductStorage.getProducts();
     }
+    
+    public TechOneProductDTO getProduct(int id) {
+        TechOneProductStorage techOneProductStorage = new TechOneProductStorage();
+        TechOneProductDTO product = techOneProductStorage.getProduct(id);
+        return product;
+    }
 }

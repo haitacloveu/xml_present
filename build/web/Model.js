@@ -49,5 +49,28 @@ let Model = {
             }
         }
         return null;
+    },
+    
+    loadPdf: function(id) {
+        let xhttp = new XMLHttpRequest();
+        xhttp.responseType="blob";
+        xhttp.onreadystatechange = function (event) {
+            if (this.readyState === 4 && this.status === 200) {
+                var response = event.target.response;
+                var file = new Blob([response], {type: 'application/pdf'});
+                var fileUrl = window.URL.createObjectURL(file);
+                var win = window.open(fileUrl, "_blank");
+                if (win) {
+                    
+                } else {
+                    var link = document.createElement('a');
+                    link.href = fileUrl;
+                    link.download = id + "_" + new Date().getTime() + ".pdf";
+                    link.click();
+                }
+            }
+        };
+        xhttp.open("GET", "/Presentation/api/product/getPdf/" + id, true);
+        xhttp.send();        
     }
 };

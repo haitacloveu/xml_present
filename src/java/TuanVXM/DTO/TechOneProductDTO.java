@@ -7,11 +7,13 @@ package TuanVXM.DTO;
 
 import TuanVXM.Util.DataFormatUtil;
 import java.util.List;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author TuanVXM
  */
+@XmlRootElement(name = "Product")
 public class TechOneProductDTO {
     private String label;
     private String link;

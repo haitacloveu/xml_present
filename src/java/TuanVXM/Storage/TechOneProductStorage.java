@@ -133,4 +133,35 @@ public class TechOneProductStorage {
         }
         return result;
     }
+
+    public TechOneProductDTO getProduct(int id) {
+        TechOneProductDTO result = null;
+        try {
+            conn = DBUtil.getConnection();
+            if (conn != null) {
+                String sql = "SELECT id, label, link, imgLink, [name], price, sPrice, promotion FROM TO_PRODUCT "
+                        + "WHERE id = ?";
+                stm = conn.prepareStatement(sql);
+                stm.setInt(1, id);
+                rs = stm.executeQuery();
+                if (rs.next()) {
+                    TechOneProductDTO dto = new TechOneProductDTO();
+                    dto.setId(rs.getInt("id"));
+                    dto.setLabel(rs.getString("label"));
+                    dto.setLink(rs.getString("link"));
+                    dto.setImgLink(rs.getString("imgLink"));
+                    dto.setName(rs.getString("name"));
+                    dto.setPrice(rs.getLong("price"));
+                    dto.setsPrice(rs.getLong("sPrice"));
+                    dto.setPromotion(rs.getString("promotion"));
+                    result = dto;
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TechOneProductStorage.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            closeConnection();
+        }
+        return result;
+    }
 }

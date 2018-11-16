@@ -5,7 +5,13 @@
  */
 package TuanVXM.Util;
 
+import TuanVXM.DTO.ProductsDTO;
+import TuanVXM.DTO.TechOneProductDTO;
 import java.io.InputStream;
+import java.io.StringWriter;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -61,5 +67,14 @@ public class XmlUtil {
         String result = reader.getText();
         reader.nextTag();
         return result;
+    }
+
+    public static String marshallData(TechOneProductDTO product) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(TechOneProductDTO.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        StringWriter sw = new StringWriter();
+        jaxbMarshaller.marshal(product, sw);
+        return sw.toString();
     }
 }
